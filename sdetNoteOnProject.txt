@@ -1,0 +1,54 @@
+
+
+url: https://demo.guru99.com/v4/
+user id: mngr164225
+password: jahetAp
+
+stages/phases:
+
+1. implementation
+2. execution
+3. maintenance
+
+
+Maven
+pom.xml
+https:mvnrepository.com/
+
+>Read common values from properties file
+
+Config.properties
+ReadConfig.java
+Base class
+
+1. Data Driven test
+pre-requite:
+
+Apache poi jars
+XLS file(test data)
+XLUtils.java
+
+@DataProvider
+
+New Test case
+--------------
+1. Page class
+2. test case
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

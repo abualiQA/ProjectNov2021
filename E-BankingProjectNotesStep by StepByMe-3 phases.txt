@@ -1,0 +1,372 @@
+E-Banking project Resources:
+
+Phase1:Implementation
+
+Note: If maven plugin is not available on Intellij or Eclips in Java, 
+then need to download maven plugin
+
+STEP1:
+
+To Check if maven plugin downloded or not:on tool bar window>preferances> 
+if u see maven on left hand side that mean u have maven already otherwise need to download
+To download:  For eclips:>on toolbar Help>Eclips Market place> type 'maven' on 'Find' box
+> select m2e>install
+For IntelliJ: just copy maven plugins from my other projects or from full framework folder on desktop
+
+STEP2:
+
+>Create Maven Project
+Note: pom.xml comes autometically when you create maven project in java
+File> new>other>  (on eclips)>select maven>expand maven and select 'maven project'>next>next>next>type same project name in the box of group id and artifact id 
+(which you can put same name)
+
+STEP3:
+
+Create 4 packages:right click on 'java'(under test)>new>package>type package name
+ex:com.eBankingPageObjects(same way another 3)
+ and 3 files : right click on 'java'(under test)>new>file>type file name. 
+ex: Driver
+
+STEP4:
+
+>Update pom.xml(add dependencies)
+ Note:pom.xml file download all the jar files which is required for the project
+ dependencies means some small code(a peice of code) consist of jars and libraries which will be put into pom.xml
+any update happend in the future for dependencies version, just change verison number on pom.xml
+Note: VVI: You should not change anything top of </properties>
+
+To add dependencies into pom.xml: Type <dependencies></dependencies>
+then add all dependency between <dependencies></dependencies>
+Steps to Add: link for all depencies(https://mvnrepository.com/)
+>copy link and past it one google
+
+
+
+Selenium:webdriver dependency
+
+>type 'selenium java' on search box then cick enter
+>click on 'selenium java'
+> click version number which is recent and stable and most people used
+Note: beta version is nothing which is trial version and not stable, so dont take beta or alpha version
+
+>copy(<!-- https://mvnrepository.com/artifact/org.seleniumhq.selenium/selenium-java -->
+<dependency>
+    <groupId>org.seleniumhq.selenium</groupId>
+    <artifactId>selenium-java</artifactId>
+    <version>3.141.59</version>
+</dependency>
+) and paste it on pom.xml
+NOTE: VVI: every time you add dependencies, after added you must click 'm' sign on Intellij which pop up after added and for eclips you need to save
+and refresh on Eclips
+
+TestNG Dependency: same as selenium steps
+
+>Type 'TestNG' on search box
+>click 'TestNG'(which has 'org.testng>>testng)
+>click number under'version' which is recent and stable and most people used
+
+Apache.poi Dependency: 2 dependencies(one is poi and other is poi-ooxml)
+
+same as selenium steps
+1.
+>Type 'apache poi' on search box
+2.
+>Type 'apache poi-ooxml' on search box
+
+Extentreport Dependency:
+
+>Type 'Extentreports' on search box
+
+
+Apache.commons Dependency: 2 dependencies(one is commons-lang3 and other is commons-io)
+
+same as selenium steps
+
+>Type 'Apache.commons' on search box
+
+Note: If new version comes for dependencies in the future just change the version number inside the pom.xml
+old jars will be removed and new jars will be placed
+
+STEP5: copy driver path(chrome, IE, firfox on 'downloads' folder) on my PC then paste on 'driver' folder on project.
+
+Note: if there is no driver in ur computer, then need to download drivers
+
+
+STEP6:How to automate test case(CREATE LOG IN TEST CASE)
+Requirements: testcases on excel sheet(which i have on desktop), 
+
+>1.Create Page Object class on page objects package name as 'LoginPage':
+
+>right click on pageObject package>New>Class>Type 'LoginPage'
+then page objects/elements on log in page on "
+url: https://demo.guru99.com/v4/"
+3 items/ elements needed to be interacted. which need to be added to LoginPage class. 
+then create driver objects which is
+WebDriver driver;
+then write a constructor
+WebDriver parameter is rdriver and initiate PageFactory class.
+
+ 3 elements:need to add 3 elemenets
+go to login page and inspect loginID
+
+add @CacheLookup for all 3
+
+For 3 elemenets need to write action method
+
+First method: public void setUserName(String uname){
+        txtUserName.sendKeys(uname);
+
+    }
+Second method:public void setPassword(String pwd){
+        txtPassword.sendKeys(pwd);
+
+    }
+
+Third method:public void clickSubmit(){
+        btnLogin.click ();
+
+    }
+
+Now create test case:
+>Create Basic test case
+Note:Test Case has 3 different parts
+1. setUp method
+Pre-Requsite(such as initiate driver)
+Executed @before class
+
+2. actual test case method
+Note: steps @test annotation
+
+3. tearDown method
+Note: execute after method @after class annotation
+
+1. and 2. are common for every test case. so create separete class called Base class then extends it. all the test cases just extend base class after creating base class.
+Note: whenever something reapeting again and again(common things) u should put in base class.
+
+Create BaseClass:Base class must contains note1, note2, note3 below
+
+Note:1. required some variables below
+
+public string baseURL="https://demo.guru99.com/v3/index.php";
+
+public string username="mngr147771";
+
+public string password="vyryrAt";
+
+public static WebDriver driver;
+
+Note:2. setup method
+
+@BeforeClass
+    public void setup(){
+       System.setProperty("webdriver. chrome.driver",System.getProperty("user.dir")+"//Driver//chromedriver.exe");
+        driver=new ChromeDriver();
+    }
+or  WebDriverManager.chromedriver().setup();
+Note: if u put webdriver manager , u must add webdriver manager dependency on pom.xml
+
+       driver=new ChromeDriver()
+
+Note:3. teardown method
+
+ @AfterClass
+ public void tearDown(){
+       driver.quit();
+}
+
+Now write actual test case:
+Note: whenever u write new test case, u must extends base class.for every test case.
+
+public class TC_LoginTest_001 extends BaseClass {
+    
+    
+    
+    
+    
+}
+
+
+
+>Add logs to test case
+log4j
+--------------
+log4j.jar
+log4j.properties
+- add log4j dependency on pom.xml
+-click on ". Apache Log4j" on mvnrepository
+-create a object of Logger class after setup method
+- make object name as global variable
+   public static Logger logger;
+- add log to test case
+Note: same way to do for every test case
+
+Problem: Log folder does not show on intelliJ
+
+Note:without base class test case can be performed, but without utilities class test case can not be performed.
+
+
+>Read common values from properties file
+
+- properties file
+name of the file:
+1. config.properties-should be in configuration file
+
+2. ReadConfig.java(utility file, which is supported file)- should be in utilities package
+
+3. Baseclass- should be in test case package
+
+1.  instead of putting variebles in base class, we create one properties file
+Before create base class, need to create properties file then ulities file then base class.
+Note: utilties file communicate with properties file and giving info to base class.
+Config.properties must be configaration folder
+Note: in config.properties file u should not use any single or double quotation or any data types. just variabe name and values
+
+Note:chromepath=./Drivers\\chromedriver.exe
+prperties class accept only backward \\
+but in java accept forward //
+./ representing the project home directory
+
+System.getProperty("user.dir") --- use only in java classes
+./  ---in java classes & in properties
+Note: if u wanna change any variable in future, just go to properties file and change it.
+
+
+
+2. ReadConfig.java(utility file, which is supported file)- should be in utilities package
+Note: utility class read all the values in properties file and provide to Base class
+-same as pageobject class
+-create object for Properties class
+- create a constructor
+-create methods for all variables
+Note: must use same variable name in method(bcz case sensitive)
+
+3. Baseclass:
+- modify base class
+-have to remove the variable in base class
+- have to call the method from ReadConfig class
+Note: if u wanna call the methods from ReadConfig class, u need to create object of ReadConfig  class in basecalss.
+
+-create object of ReadConfig  class in basecalss
+-modify base class variables
+- run the test case(if test case window is not open, click on test case package and click on test case then click on run)
+
+
+
+>Run test case on desired browser
+
+- need testng.xml dependency
+-test case has 3 parts/methods(1. launching browswer 2. test case method 3. teardown method)
+Note: xml file need to send browser parameter to the launching method. currently launching mechanism is part of base class.base class should be updated accordingly.
+- remove driver.get(baseURL); from test case and put it on BaseClass
+
+- create xml file on project level(right click on project-new-XML file
+name as TestNg.xml
+Note: execute test case as "run as TestNG.xml"
+
+Note: TestNG.xml can execute multiple test cases only(not base class)
+- add test case name on xml file
+Note: u can change parameter IE or firefox instead of chrome
+
+
+> Add extent report
+
+requirement:
+1. jars    -- dependency
+2. extent-config.xml   -- configaration file
+3. lestener(Reporting.java)-- utility file
+4.add entry in testNG.xml file
+Note: need to integrate utilities file and test case by xml file. utilities same for all the test cases.
+- click on xml file and change 
+
+
+Note:
+For screeshot need add screenshot method on baseclass and call this method on test case page
+
+
+>Create data Driven test case
+Note: First test case you need to do evrything
+ 
+Requirements:
+1.Apache poi  jars
+2. XLUtils.java
+3. XLS file(test data)
+4. @DataProvider
+
+1.
+-cross check pom.xml (if dependencies there or no)
+both required
+dependency#1 :
+<dependency>
+        <groupId>org.apache.poi</groupId>
+        <artifactId>poi</artifactId>
+        <version>4.1.2</version>
+    </dependency>
+
+dependency#2 :
+
+<dependency>
+        <groupId>org.apache.poi</groupId>
+        <artifactId>poi-ooxml</artifactId>
+        <version>5.0.0</version>
+    </dependency>
+
+2.
+-create XLUtils class on com.ebankingutilities package
+
+3. copy xls(excel) file from ur pc to utilities package
+- create test case on testcase package
+
+
+> Adding new test case
+1. Page class
+2. test case
+Test Case Name is "Add Customer"
+step1. first need to log in manually with user name and password
+and click "new Customer"
+step2. need to create a classs under "page object" package
+step3. need to create action class
+step4. instantiate variable "WebDriver 1driver"
+step5. create constructor
+step6. add new test case
+step7. call method from page object class
+step8. keep random string method in base class(commonly use/ use for all the test cases thats why)
+step9. add logs to the test cases(u must add logs)
+step10. add test case 3 to xml file
+step11. comment all other test cases on xml file(except newly added one)
+
+VVV. every time finish ur test case u must add to xml file.
+Note: if u wanna run all test cases, just remove comments on xml file then run the test cases same way.
+
+
+
+
+
+
+
+Phase2:Execution
+
+>Run test cases with Maven pom.xml
+>Run test cases through Maven CLI(command line interface)
+>Run test cases using run.bat
+>Run test cases using Jenkins(using bat file)
+
+Phase3:Maintenance
+
+>Creating repository in GITHUB
+>Commit the project code in local repository
+>Push the project code to GITHUB remote repository from local GIT repository
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
